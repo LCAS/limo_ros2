@@ -16,20 +16,20 @@ jobs:
     if: ${{ github.event_name != 'pull_request' }} 
     steps:
     - uses: lasith-kg/dispatch-workflow@v1
-      id: workflow-dispatch
+      id: workflow-dispatch_develop
       name: 'Trigger re-build of desktop docker image "develop"'
       with:
-        dispatch-method: workflow_dispatch_develop
+        dispatch-method: workflow_dispatch
         repo: kasm-workspaces-core-images
         owner: LCAS
         ref: refs/heads/develop # or main
         workflow: docker-latest.yml # Or Workflow ID
         token: ${{ secrets.ORGA_GH_TOKEN }} # GitHub Token With Relevant Permissions
     - uses: lasith-kg/dispatch-workflow@v1
-      id: workflow-dispatch
+      id: workflow-dispatch_nvidia_develop
       name: 'Trigger re-build of desktop docker image "nvidia_develop"'
       with:
-        dispatch-method: workflow_dispatch_nvidia_develop
+        dispatch-method: workflow_dispatch
         repo: kasm-workspaces-core-images
         owner: LCAS
         ref: refs/heads/nvidia_develop # or main
