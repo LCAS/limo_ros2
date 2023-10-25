@@ -19,7 +19,7 @@ jobs:
       id: workflow-dispatch
       name: 'Trigger re-build of desktop docker image "develop"'
       with:
-        dispatch-method: workflow_dispatch
+        dispatch-method: workflow_dispatch_develop
         repo: kasm-workspaces-core-images
         owner: LCAS
         ref: refs/heads/develop # or main
@@ -29,7 +29,7 @@ jobs:
       id: workflow-dispatch
       name: 'Trigger re-build of desktop docker image "nvidia_develop"'
       with:
-        dispatch-method: workflow_dispatch
+        dispatch-method: workflow_dispatch_nvidia_develop
         repo: kasm-workspaces-core-images
         owner: LCAS
         ref: refs/heads/nvidia_develop # or main
