@@ -11,7 +11,7 @@ on:
 jobs:
 
   trigger:
-    runs-on: ubuntu-latest
+    runs-on: lcas
     # only do this if we don't have a pull request
     if: ${{ github.event_name != 'pull_request' }} 
     steps:
