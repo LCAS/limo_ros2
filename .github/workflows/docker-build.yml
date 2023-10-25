@@ -13,7 +13,7 @@ jobs:
   trigger:
     runs-on: ubuntu-latest
     # only do this if we don't have a pull request
-    if: ${{ github.event_name != 'pull_request' }} 
+    # if: ${{ github.event_name != 'pull_request' }} 
     steps:
     - uses: lasith-kg/dispatch-workflow@v1
       id: workflow-dispatch
@@ -55,6 +55,8 @@ jobs:
     - name: Set up QEMU
       uses: docker/setup-qemu-action@v3  
     - name: Build and push limo_ros2 for arm64
+      # only build for arm if not PR to speed things up
+      if: ${{ github.event_name != 'pull_request' }} 
       uses: docker/build-push-action@v5
       with:
         context: .devcontainer
