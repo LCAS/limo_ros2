@@ -44,7 +44,15 @@ RUN apt-get update \
     libgflags-dev \
     nlohmann-json3-dev \
     ros-humble-image-* \
+    python3 \
+    cmake g++ pip \
+    libasio-dev \
+    libtinyxml2-dev \
+    libssl-dev \
+    python3-sphinx \
+    libyaml-cpp-dev \
     && rm -rf /var/lib/apt/lists/*
+
 RUN git clone https://github.com/YDLIDAR/YDLidar-SDK.git &&\
     mkdir -p YDLidar-SDK/build && \
     cd YDLidar-SDK/build &&\
@@ -80,6 +88,10 @@ RUN git clone https://github.com/libuvc/libuvc.git &&\
 
 ENV NVIDIA_VISIBLE_DEVICES all
 ENV NVIDIA_DRIVER_CAPABILITIES graphics,utility,compute
-ENV RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
+#ENV RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
+
+COPY *repos *.sh /tmp/.devcontainer/
+RUN bash /tmp/.devcontainer/install.sh
+
 
 RUN echo "source /opt/ros/humble/setup.bash" >> /etc/bash.bashrc
