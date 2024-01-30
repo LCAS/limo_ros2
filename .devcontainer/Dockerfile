@@ -88,7 +88,7 @@ RUN git clone https://github.com/libuvc/libuvc.git &&\
 
 ENV NVIDIA_VISIBLE_DEVICES all
 ENV NVIDIA_DRIVER_CAPABILITIES graphics,utility,compute
-#ENV RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
+ENV RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
 
 COPY *repos *.sh /tmp/.devcontainer/
 RUN bash /tmp/.devcontainer/install.sh
