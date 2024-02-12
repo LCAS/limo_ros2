@@ -1,3 +1,6 @@
+source /opt/ros/lcas/install/setup.bash
+source /workspaces/limo_ros2/install/setup.bash
+
 unset RMW_IMPLEMENTATION
 unset ROS_LOCALHOST_ONLY
 RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
