@@ -1,5 +1,5 @@
-source /opt/ros/lcas/install/setup.bash
-source /workspaces/limo_ros2/install/setup.bash
+#source /opt/ros/lcas/install/setup.bash
+#source /workspaces/limo_ros2/install/setup.bash
 
 unset RMW_IMPLEMENTATION
 unset ROS_LOCALHOST_ONLY

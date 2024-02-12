@@ -58,6 +58,7 @@ RUN apt-get update \
     ros-humble-cyclonedds \
     ros-humble-zenoh-bridge-dds \
     llvm-dev libclang-dev \
+    python3-rosdep \
     && rm -rf /var/lib/apt/lists/*
 
 # add sudo without password
@@ -113,5 +114,6 @@ ENV RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
 COPY *repos *.sh /tmp/.devcontainer/
 RUN bash /tmp/.devcontainer/install.sh
 
-
 RUN echo "source /opt/ros/humble/setup.bash" >> /etc/bash.bashrc
+RUN cat /tmp/.devcontainer/setup-router.sh >> /etc/bash.bashrc
+
