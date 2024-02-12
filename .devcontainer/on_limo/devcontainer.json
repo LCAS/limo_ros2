@@ -4,15 +4,15 @@
     // Use "dockerFile tag to build container using Dockerfile, or image tag to build using prebuilt image
     // "dockerFile": "Dockerfile",
     //"image": "westonrobot/limo_ros:humble_22082023",
-    "name": "limo_ros2",
+    "name": "limo_ros2_arm",
 
-    "build": {
-		"dockerfile": "../Dockerfile",
-		"context": "..",
-        "args": {
-            "WORKSPACE": "${containerWorkspaceFolder}"
-        }
-    },
+    // "build": {
+	// 	"dockerfile": "../Dockerfile",
+	// 	"context": "..",
+    //     "args": {
+    //         "WORKSPACE": "${containerWorkspaceFolder}"
+    //     }
+    // },
     "image": "lcas.lincoln.ac.uk/lcas/limo_ros_arm64:humble",
     "remoteUser": "ros",
     "runArgs": [

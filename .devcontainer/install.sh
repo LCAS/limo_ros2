@@ -19,5 +19,5 @@ colcon build
 
 #cd /home/lcas/ws
 #colcon build 
-echo "source /opt/ros/lcas/install/setup.bash" >> ~/.bashrc
+echo "source /opt/ros/lcas/install/setup.bash" >> /etc/bash.bashrc
 
