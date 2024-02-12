@@ -299,3 +299,5 @@ dmypy.json
 cython_debug/
 
 !src/**
+
+.local
