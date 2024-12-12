@@ -64,7 +64,7 @@ RUN apt-get update \
 # add sudo without password
 RUN echo "ALL ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 
-RUN git clone https://github.com/YDLIDAR/YDLidar-SDK.git &&\
+RUN git clone -b V1.2.7 --depth 1 https://github.com/YDLIDAR/YDLidar-SDK.git &&\
     mkdir -p YDLidar-SDK/build && \
     cd YDLidar-SDK/build &&\
     cmake ..&&\
