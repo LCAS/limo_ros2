@@ -134,6 +134,7 @@ RUN apt update && \
     pip install -U argcomplete
 
 RUN cd /opt/ros/lcas && \
+    . /opt/ros/humble/setup.sh && \
     if [ ${TARGETARCH} = "arm64" ]; then \
         # no support for gazebo on arm64
         rm -rf src/limo/limo_gazebosim; \
