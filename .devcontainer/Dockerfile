@@ -138,7 +138,7 @@ RUN cd /opt/ros/lcas && \
     echo "target: $TARGETARCH" && \
     if [ ${TARGETARCH} = "arm64" ]; then \
         # no support for gazebo on arm64
-        rm -rvf src/limo/limo_gazebosim; \
+        rm -rvf src/limo/src/limo_gazebosim; \
     fi; \
     rosdep install --from-paths src/ -i -y && \    
     colcon build
