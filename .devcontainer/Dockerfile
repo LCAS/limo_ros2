@@ -89,7 +89,7 @@ RUN wget -c https://github.com/Neargye/magic_enum/archive/refs/tags/v0.8.0.tar.g
     sudo make install &&\
     sudo ldconfig &&\
     cd ../.. && rm -r magic_enum*
-RUN git clone -b 047920bcdfb1dac42424c90de5cc77dfc9fba04d --depth 1 https://github.com/libuvc/libuvc.git &&\
+RUN git clone --depth 1 https://github.com/libuvc/libuvc.git &&\
     cd libuvc &&\
     mkdir build && cd build &&\
     cmake .. && make -j4 &&\
