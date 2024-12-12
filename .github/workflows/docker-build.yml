@@ -14,33 +14,74 @@ on:
 
 jobs:
 
-  trigger:
-    runs-on: ubuntu-latest
-    # only do this if we don't have a pull request
-    if: ${{ github.event_name != 'pull_request' }} 
-    steps:
-    - uses: lasith-kg/dispatch-workflow@v1
-      id: workflow-dispatch_develop
-      name: 'Trigger re-build of desktop docker image "develop"'
-      with:
-        dispatch-method: workflow_dispatch
-        repo: kasm-workspaces-core-images
-        owner: LCAS
-        ref: refs/heads/develop # or main
-        workflow: docker-latest.yml # Or Workflow ID
-        token: ${{ secrets.ORGA_GH_TOKEN }} # GitHub Token With Relevant Permissions
-    - uses: lasith-kg/dispatch-workflow@v1
-      id: workflow-dispatch_nvidia_develop
-      name: 'Trigger re-build of desktop docker image "nvidia_develop"'
-      with:
-        dispatch-method: workflow_dispatch
-        repo: kasm-workspaces-core-images
-        owner: LCAS
-        ref: refs/heads/nvidia_develop # or main
-        workflow: docker-latest.yml # Or Workflow ID
-        token: ${{ secrets.ORGA_GH_TOKEN }} # GitHub Token With Relevant Permissions
+  # trigger:
+  #   runs-on: ubuntu-latest
+  #   # only do this if we don't have a pull request
+  #   if: ${{ github.event_name != 'pull_request' }} 
+  #   steps:
+  #   - uses: lasith-kg/dispatch-workflow@v1
+  #     id: workflow-dispatch_develop
+  #     name: 'Trigger re-build of desktop docker image "develop"'
+  #     with:
+  #       dispatch-method: workflow_dispatch
+  #       repo: kasm-workspaces-core-images
+  #       owner: LCAS
+  #       ref: refs/heads/develop # or main
+  #       workflow: docker-latest.yml # Or Workflow ID
+  #       token: ${{ secrets.ORGA_GH_TOKEN }} # GitHub Token With Relevant Permissions
+  #   - uses: lasith-kg/dispatch-workflow@v1
+  #     id: workflow-dispatch_nvidia_develop
+  #     name: 'Trigger re-build of desktop docker image "nvidia_develop"'
+  #     with:
+  #       dispatch-method: workflow_dispatch
+  #       repo: kasm-workspaces-core-images
+  #       owner: LCAS
+  #       ref: refs/heads/nvidia_develop # or main
+  #       workflow: docker-latest.yml # Or Workflow ID
+  #       token: ${{ secrets.ORGA_GH_TOKEN }} # GitHub Token With Relevant Permissions
 
-  build:
+  build_amd64:
+
+    runs-on: lcas
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: What
+      run: echo "BRANCH=${GITHUB_REF##*/}" >> $GITHUB_ENV
+    - name: Docker Login LCAS
+      # don't attempt to login for PRs
+      if: ${{ github.event_name != 'pull_request' }} 
+      # You may pin to the exact commit or the version.
+      # uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
+      uses: docker/login-action@v2
+      with:
+        # Server address of Docker registry. If not set then will default to Docker Hub
+        registry: lcas.lincoln.ac.uk
+        # Username used to log against the Docker registry
+        username: ${{ secrets.LCAS_REGISTRY_PUSHER }}
+        # Password or personal access token used to log against the Docker registry
+        password: ${{ secrets.LCAS_REGISTRY_TOKEN }}
+    - name: Docker Login dockerhub
+      # don't attempt to login for PRs
+      if: ${{ github.event_name != 'pull_request' }} 
+      uses: docker/login-action@v2
+      with:
+        # Username used to log against the Docker registry
+        username: ${{ secrets.DOCKERHUB_USER }}
+        # Password or personal access token used to log against the Docker registry
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+    - name: Build and push limo_ros2 for amd64
+      uses: docker/build-push-action@v5
+      with:
+        context: .
+        file: .devcontainer/Dockerfile
+        platforms: linux/amd64
+        push: ${{ github.event_name != 'pull_request' }}
+        tags: lcas.lincoln.ac.uk/lcas/limo_ros_amd64:${{ env.BRANCH }}
+        build-args: |
+            BRANCH=${{ env.BRANCH }}
+
+  build_arm64:
 
     runs-on: lcas
 
@@ -77,21 +118,10 @@ jobs:
       if: ${{ github.event_name != 'pull_request' }} 
       uses: docker/build-push-action@v5
       with:
-        context: .devcontainer
+        context: .
         file: .devcontainer/Dockerfile
         platforms: linux/arm64
         push: ${{ github.event_name != 'pull_request' }}
         tags: lcas.lincoln.ac.uk/lcas/limo_ros_arm64:${{ env.BRANCH }}
         build-args: |
             BRANCH=${{ env.BRANCH }}
-    - name: Build and push limo_ros2 for amd64
-      uses: docker/build-push-action@v5
-      with:
-        context: .devcontainer
-        file: .devcontainer/Dockerfile
-        platforms: linux/amd64
-        push: ${{ github.event_name != 'pull_request' }}
-        tags: lcas.lincoln.ac.uk/lcas/limo_ros_amd64:${{ env.BRANCH }}
-        build-args: |
-            BRANCH=${{ env.BRANCH }}
-        

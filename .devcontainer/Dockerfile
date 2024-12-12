@@ -89,7 +89,7 @@ RUN wget -c https://github.com/Neargye/magic_enum/archive/refs/tags/v0.8.0.tar.g
     sudo make install &&\
     sudo ldconfig &&\
     cd ../.. && rm -r magic_enum*
-RUN git clone https://github.com/libuvc/libuvc.git &&\
+RUN git clone -b 047920bcdfb1dac42424c90de5cc77dfc9fba04d --depth 1 https://github.com/libuvc/libuvc.git &&\
     cd libuvc &&\
     mkdir build && cd build &&\
     cmake .. && make -j4 &&\
@@ -98,26 +98,52 @@ RUN git clone https://github.com/libuvc/libuvc.git &&\
     cd ../.. && rm -r libuvc*
 
 
-RUN mkdir -p /opt/lcas/extensions 
-WORKDIR /opt/lcas/extensions 
-RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y 
-RUN git clone https://github.com/eclipse-zenoh/zenoh-plugin-ros2dds.git
-WORKDIR /opt/lcas/extensions/zenoh-plugin-ros2dds
-RUN bash -c "source '$HOME/.cargo/env'; cargo build --release -p zenoh-bridge-ros2dds"
-RUN install target/release/zenoh-bridge-ros2dds /usr/local/bin/
-WORKDIR /
+# RUN mkdir -p /opt/lcas/extensions 
+# WORKDIR /opt/lcas/extensions 
+# RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y 
+# RUN git clone https://github.com/eclipse-zenoh/zenoh-plugin-ros2dds.git
+# WORKDIR /opt/lcas/extensions/zenoh-plugin-ros2dds
+# RUN bash -c "source '$HOME/.cargo/env'; cargo build --release -p zenoh-bridge-ros2dds"
+# RUN install target/release/zenoh-bridge-ros2dds /usr/local/bin/
+# WORKDIR /
+
+# install Zenoh
+RUN mkdir -p /tmp/zenoh-build && \ 
+    cd /tmp/zenoh-build && \
+    (curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y) && \
+    git clone --depth 1 -b 1.0.4 https://github.com/eclipse-zenoh/zenoh-plugin-ros2dds.git && \
+    cd /tmp/zenoh-build/zenoh-plugin-ros2dds && \
+    /bin/bash -c "source '$HOME/.cargo/env'; cargo build --release -p zenoh-bridge-ros2dds" && \
+    install target/release/zenoh-bridge-ros2dds /usr/local/bin/
+
 
 ENV NVIDIA_VISIBLE_DEVICES all
 ENV NVIDIA_DRIVER_CAPABILITIES graphics,utility,compute
 ENV RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
 
-COPY *repos *.sh /tmp/.devcontainer/
+COPY .devcontainer/*repos .devcontainer/*.sh /tmp/.devcontainer/
 
 ARG TARGETARCH
 ENV TARGETARCH=${TARGETARCH}
 
-RUN bash /tmp/.devcontainer/install.sh
+
+COPY . /opt/ros/lcas/src/limo
+RUN apt update && \
+    rosdep init && \
+    rosdep --rosdistro=humble update && \
+    pip install -U argcomplete
+
+RUN cd /opt/ros/lcas && \
+    rosdep install --from-paths src/ -i -y && \    
+    if [ ${TARGETARCH} = "arm64" ]; then \
+        # for arm64 we don't have gazebo, so only do bringup and its dependencies
+        colcon build --packages-up-to limo_bringup; \
+    else \
+        colcon build; \
+    fi
 
 RUN echo "source /opt/ros/humble/setup.bash" >> /etc/bash.bashrc
+RUN echo "source /opt/ros/lcas/install/setup.bash" >> /etc/bash.bashrc
+
 RUN cat /tmp/.devcontainer/setup-router.sh >> /etc/bash.bashrc
 
