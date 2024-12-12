@@ -15,7 +15,13 @@ cd /opt/ros/lcas/src
 vcs import < /tmp/.devcontainer/lcas.repos
 rosdep install --from-paths . -r -i -y
 cd /opt/ros/lcas
-colcon build
+if [ ${TARGETARCH} = "arm64" ]; then
+    # for arm64 we don't have gazebo, so only do bringup and its dependencies
+    colcon build --packages-up-to limo_bringup 
+else
+    colcon build
+fi
+
 
 #cd /home/lcas/ws
 #colcon build 

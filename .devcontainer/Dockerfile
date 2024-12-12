@@ -112,6 +112,10 @@ ENV NVIDIA_DRIVER_CAPABILITIES graphics,utility,compute
 ENV RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
 
 COPY *repos *.sh /tmp/.devcontainer/
+
+ARG TARGETARCH
+ENV TARGETARCH=${TARGETARCH}
+
 RUN bash /tmp/.devcontainer/install.sh
 
 RUN echo "source /opt/ros/humble/setup.bash" >> /etc/bash.bashrc
