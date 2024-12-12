@@ -134,13 +134,12 @@ RUN apt update && \
     pip install -U argcomplete
 
 RUN cd /opt/ros/lcas && \
-    rosdep install --from-paths src/ -i -y && \    
     if [ ${TARGETARCH} = "arm64" ]; then \
-        # for arm64 we don't have gazebo, so only do bringup and its dependencies
-        colcon build --packages-up-to limo_bringup; \
-    else \
-        colcon build; \
-    fi
+        # no support for gazebo on arm64
+        rm -rf src/limo/limo_gazebosim; \
+    fi; \
+    rosdep install --from-paths src/ -i -y && \    
+    colcon build
 
 RUN echo "source /opt/ros/humble/setup.bash" >> /etc/bash.bashrc
 RUN echo "source /opt/ros/lcas/install/setup.bash" >> /etc/bash.bashrc
