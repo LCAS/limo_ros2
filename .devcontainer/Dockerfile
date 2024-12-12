@@ -135,9 +135,10 @@ RUN apt update && \
 
 RUN cd /opt/ros/lcas && \
     . /opt/ros/humble/setup.sh && \
+    echo "target: $TARGETARCH" && \
     if [ ${TARGETARCH} = "arm64" ]; then \
         # no support for gazebo on arm64
-        rm -rf src/limo/limo_gazebosim; \
+        rm -rvf src/limo/limo_gazebosim; \
     fi; \
     rosdep install --from-paths src/ -i -y && \    
     colcon build
