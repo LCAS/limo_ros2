@@ -23,7 +23,6 @@
 
   <exec_depend>limo_base</exec_depend>
   <exec_depend>limo_description</exec_depend>
-  <exec_depend>limo_msgs</exec_depend>
   <exec_depend>limo_navigation</exec_depend>
   <exec_depend>astra_camera</exec_depend>
   <exec_depend>ydlidar_ros2_driver</exec_depend>
