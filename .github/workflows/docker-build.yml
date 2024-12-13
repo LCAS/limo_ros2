@@ -2,43 +2,13 @@ name: Docker Image CI
 
 on:
   push:
-    paths: 
-    - .devcontainer/**
     branches: [ humble ]
     tags:
-      - '*'
+      - 'v*'
   pull_request:
     branches: [ humble ]
-    paths: 
-    - .devcontainer/**
 
 jobs:
-
-  # trigger:
-  #   runs-on: ubuntu-latest
-  #   # only do this if we don't have a pull request
-  #   if: ${{ github.event_name != 'pull_request' }} 
-  #   steps:
-  #   - uses: lasith-kg/dispatch-workflow@v1
-  #     id: workflow-dispatch_develop
-  #     name: 'Trigger re-build of desktop docker image "develop"'
-  #     with:
-  #       dispatch-method: workflow_dispatch
-  #       repo: kasm-workspaces-core-images
-  #       owner: LCAS
-  #       ref: refs/heads/develop # or main
-  #       workflow: docker-latest.yml # Or Workflow ID
-  #       token: ${{ secrets.ORGA_GH_TOKEN }} # GitHub Token With Relevant Permissions
-  #   - uses: lasith-kg/dispatch-workflow@v1
-  #     id: workflow-dispatch_nvidia_develop
-  #     name: 'Trigger re-build of desktop docker image "nvidia_develop"'
-  #     with:
-  #       dispatch-method: workflow_dispatch
-  #       repo: kasm-workspaces-core-images
-  #       owner: LCAS
-  #       ref: refs/heads/nvidia_develop # or main
-  #       workflow: docker-latest.yml # Or Workflow ID
-  #       token: ${{ secrets.ORGA_GH_TOKEN }} # GitHub Token With Relevant Permissions
 
   build_amd64:
 
@@ -48,6 +18,7 @@ jobs:
     - uses: actions/checkout@v3
     - name: What
       run: echo "BRANCH=${GITHUB_REF##*/}" >> $GITHUB_ENV
+
     - name: Docker Login LCAS
       # don't attempt to login for PRs
       if: ${{ github.event_name != 'pull_request' }} 
@@ -61,15 +32,7 @@ jobs:
         username: ${{ secrets.LCAS_REGISTRY_PUSHER }}
         # Password or personal access token used to log against the Docker registry
         password: ${{ secrets.LCAS_REGISTRY_TOKEN }}
-    - name: Docker Login dockerhub
-      # don't attempt to login for PRs
-      if: ${{ github.event_name != 'pull_request' }} 
-      uses: docker/login-action@v2
-      with:
-        # Username used to log against the Docker registry
-        username: ${{ secrets.DOCKERHUB_USER }}
-        # Password or personal access token used to log against the Docker registry
-        password: ${{ secrets.DOCKERHUB_TOKEN }}
+
     - name: Build and push limo_ros2 for amd64
       uses: docker/build-push-action@v5
       with:
@@ -89,6 +52,7 @@ jobs:
     - uses: actions/checkout@v3
     - name: What
       run: echo "BRANCH=${GITHUB_REF##*/}" >> $GITHUB_ENV
+    
     - name: Docker Login LCAS
       # don't attempt to login for PRs
       if: ${{ github.event_name != 'pull_request' }} 
@@ -102,15 +66,7 @@ jobs:
         username: ${{ secrets.LCAS_REGISTRY_PUSHER }}
         # Password or personal access token used to log against the Docker registry
         password: ${{ secrets.LCAS_REGISTRY_TOKEN }}
-    - name: Docker Login dockerhub
-      # don't attempt to login for PRs
-      if: ${{ github.event_name != 'pull_request' }} 
-      uses: docker/login-action@v2
-      with:
-        # Username used to log against the Docker registry
-        username: ${{ secrets.DOCKERHUB_USER }}
-        # Password or personal access token used to log against the Docker registry
-        password: ${{ secrets.DOCKERHUB_TOKEN }}
+
     - name: Set up QEMU
       uses: docker/setup-qemu-action@v3  
     - name: Build and push limo_ros2 for arm64

@@ -97,16 +97,6 @@ RUN git clone --depth 1 https://github.com/libuvc/libuvc.git &&\
     sudo ldconfig  &&\
     cd ../.. && rm -r libuvc*
 
-
-# RUN mkdir -p /opt/lcas/extensions 
-# WORKDIR /opt/lcas/extensions 
-# RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y 
-# RUN git clone https://github.com/eclipse-zenoh/zenoh-plugin-ros2dds.git
-# WORKDIR /opt/lcas/extensions/zenoh-plugin-ros2dds
-# RUN bash -c "source '$HOME/.cargo/env'; cargo build --release -p zenoh-bridge-ros2dds"
-# RUN install target/release/zenoh-bridge-ros2dds /usr/local/bin/
-# WORKDIR /
-
 # install Zenoh
 RUN mkdir -p /tmp/zenoh-build && \ 
     cd /tmp/zenoh-build && \
@@ -137,7 +127,7 @@ RUN cd /opt/ros/lcas && \
     . /opt/ros/humble/setup.sh && \
     echo "target: $TARGETARCH" && \
     if [ ${TARGETARCH} = "arm64" ]; then \
-        # no support for gazebo on arm64
+        # no support for gazebo on arm64 (see https://github.com/LCAS/limo_ros2/pull/28)
         rm -rvf src/limo/src/limo_gazebosim; \
     fi; \
     rosdep install --from-paths src/ -i -y && \    
