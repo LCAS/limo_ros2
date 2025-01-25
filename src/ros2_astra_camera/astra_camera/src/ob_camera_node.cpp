@@ -300,7 +300,7 @@ void OBCameraNode::setupPublishers() {
       std::string name = stream_name_[stream_index];
       std::string topic = name + "/image_raw";
       image_publishers_[stream_index] =
-          image_transport::create_publisher(node_, topic, rmw_qos_profile_sensor_data);
+          image_transport::create_publisher(node_, topic, rmw_qos_profile_default);
       topic = name + "/camera_info";
       camera_info_publishers_[stream_index] =
           node_->create_publisher<CameraInfo>(topic, rclcpp::QoS{1}.best_effort());
