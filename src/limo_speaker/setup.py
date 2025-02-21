@@ -28,6 +28,7 @@ setup(
         'console_scripts': [
             'play_audio = limo_speaker.playAudio:main',
             'play_tts = limo_speaker.playTTS:main',
+            'console_tts = limo_speaker.consoleTTS:main',
         ],
     },
 )
