@@ -26,7 +26,8 @@ class LimoSpeakerPlayAudio(Node):
             self.get_logger().warning(f"No sound device found with name containing '{device_name}'")
             return
 
-        file_path = f"/home/ros/robot_home/Desktop/jc/__horns/{sound}.wav"
+        ## This puts it in the limo_platform/configs/sounds folder in the repo!
+        file_path = f"/home/ros/robot_home/limo_platform/configs/sounds/{sound}.wav"
 
         try:
             with wave.open(file_path, 'rb') as wf:
