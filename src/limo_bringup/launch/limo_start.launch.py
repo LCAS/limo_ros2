@@ -58,7 +58,7 @@ def generate_launch_description():
     
     launch_limo_speaker = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
-            os.path.join(limo_speaker_launch_dir, 'limo_start.launch.py')
+            os.path.join(limo_speaker_launch_dir, 'limo_speaker.launch.py')
         )
     )
 
