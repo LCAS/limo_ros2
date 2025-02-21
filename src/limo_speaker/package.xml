@@ -5,10 +5,10 @@
   <version>0.0.0</version>
   <description>TODO: Package description</description>
   <maintainer email="cooperj@example.com">cooperj</maintainer>
-  <license>TODO: License declaration</license>
+  <license>Apache License 2.0</license>
 
   <!-- System dependencies -->
-  <exec_depend>python3-sounddevice</exec_depend>
+  <depend>python3-pip</depend>
   <exec_depend>portaudio19-dev</exec_depend>
   <exec_depend>alsa-utils</exec_depend>
   <exec_depend>espeak</exec_depend>
