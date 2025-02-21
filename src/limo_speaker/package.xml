@@ -4,16 +4,15 @@
   <name>limo_speaker</name>
   <version>0.0.0</version>
   <description>TODO: Package description</description>
-  <maintainer email="ros@todo.todo">ros</maintainer>
+  <maintainer email="cooperj@example.com">cooperj</maintainer>
   <license>TODO: License declaration</license>
 
   <!-- System dependencies -->
-  <!-- <exec_depend>python3-sounddevice</exec_depend> -->
+  <exec_depend>python3-sounddevice</exec_depend>
   <exec_depend>portaudio19-dev</exec_depend>
   <exec_depend>alsa-utils</exec_depend>
   <exec_depend>espeak</exec_depend>
   <exec_depend>libespeak-dev</exec_depend>
-  
 
   <test_depend>ament_copyright</test_depend>
   <test_depend>ament_flake8</test_depend>
