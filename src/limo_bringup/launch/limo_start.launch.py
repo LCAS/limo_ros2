@@ -15,6 +15,8 @@ def generate_launch_description():
         get_package_share_directory('limo_base'), 'launch')
     ydlidar_launch_dir = os.path.join(
         get_package_share_directory('ydlidar_ros2_driver'), 'launch')
+    limo_speaker_launch_dir = os.path.join(
+        get_package_share_directory('limo_speaker'), 'launch')
 
     # Create the launch configuration variables
     declare_port_name = DeclareLaunchArgument(
@@ -53,6 +55,12 @@ def generate_launch_description():
             os.path.join(ydlidar_launch_dir, 'open_ydlidar_launch.py')
         )
     )
+    
+    launch_limo_speaker = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            os.path.join(limo_speaker_launch_dir, 'limo_start.launch.py')
+        )
+    )
 
     # Create the launch description and populate
     ld = LaunchDescription()
@@ -64,6 +72,7 @@ def generate_launch_description():
 
     ld.add_action(launch_limo_base)
     ld.add_action(launch_yd_lidar)
+    ld.add_action(launch_limo_speaker)
 
     ld.add_action(start_imu_static_transform_pub_cmd)
 
