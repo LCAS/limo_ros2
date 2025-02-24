@@ -6,7 +6,7 @@ package_name = 'limo_speaker'
 
 setup(
     name=package_name,
-    version='0.0.1',
+    version='0.0.2',
     packages=[package_name],
     data_files=[
         (os.path.join('share', package_name), ['package.xml']),
@@ -21,13 +21,14 @@ setup(
     maintainer='Josh Cooper',
     maintainer_email='joshcooper@lincoln.ac.uk',
     description='Package description',
-    license='License declaration',
+    license='Apache License 2.0',
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
             'play_audio = limo_speaker.playAudio:main',
             'play_tts = limo_speaker.playTTS:main',
             'console_tts = limo_speaker.consoleTTS:main',
+            'console_horn = limo_speaker.consoleHorn:main',
         ],
     },
 )
