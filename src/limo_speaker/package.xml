@@ -3,8 +3,8 @@
 <package format="3">
   <name>limo_speaker</name>
   <version>0.0.0</version>
-  <description>TODO: Package description</description>
-  <maintainer email="cooperj@example.com">cooperj</maintainer>
+  <description>AgileX LIMO Speaker Wrapper</description>
+  <maintainer email="joshcooper@lincoln.ac.uk">Josh Cooper</maintainer>
   <license>Apache License 2.0</license>
 
   <!-- System dependencies -->
