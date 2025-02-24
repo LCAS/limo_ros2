@@ -21,6 +21,8 @@ class LimoSpeakerConsoleHorn(Node):
                 user_input = "truck"
             elif user_input == "3":
                 user_input = "clown"
+            elif user_input == "4":
+                user_input = "train"
             # default catch!
             else:
                 user_input = "car"
@@ -46,6 +48,6 @@ def main(args=None):
 if __name__ == '__main__':
     print("\033[1mLimo Horn Publisher\n\033[0mWhich horn would you like to honk?")
     print("*"*16)
-    print(" 1) Car Horn\n 2) Truck Horn \n 3) Clown Horn")
+    print(" 1) Car Horn\n 2) Truck Horn \n 3) Clown Horn \n 4) Train Horn")
     print("*"*16, "\n")
     main()
